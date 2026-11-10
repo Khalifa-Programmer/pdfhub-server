@@ -1,0 +1,14 @@
+# Render Blueprint: Dashboard > New > Blueprint > pick this repo
+services:
+  - type: web
+    name: pdfhub
+    runtime: docker
+    plan: free                  # 512 MB RAM, sleeps after 15 min idle
+    healthCheckPath: /api/health
+    envVars:
+      - key: MAX_PARALLEL_JOBS  # one job at a time so 512 MB is not exceeded
+        value: "1"
+      - key: MAX_UPLOAD_MB
+        value: "20"
+      - key: JOB_TIMEOUT_S
+        value: "240"            # the free plan has only 0.1 CPU, so jobs are slow
